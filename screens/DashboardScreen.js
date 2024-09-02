@@ -43,7 +43,7 @@ const DashboardScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Ulogirali ste se</Text>
+      <Text style={styles.title}>Kalkulator studentske place</Text>
       <WorkHoursEntry userId={user.id} navigation={navigation} />
       <TouchableOpacity
         style={styles.button}

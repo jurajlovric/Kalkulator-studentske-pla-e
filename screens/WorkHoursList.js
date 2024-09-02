@@ -1,6 +1,6 @@
 // screens/WorkHoursList.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { supabase } from '../supabaseClient'; // Import Supabase klijenta
 
 const WorkHoursList = ({ navigation, route }) => {
@@ -41,10 +41,18 @@ const WorkHoursList = ({ navigation, route }) => {
         renderItem={renderItem}
         ListEmptyComponent={<Text>Nema unesenih sati.</Text>}
       />
-      <Button
-        title="Natrag na unos sati"
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('MonthlyHours', { userId })}
+      >
+        <Text style={styles.buttonText}>Prikaži mjesečne sate</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
         onPress={() => navigation.navigate('DashboardScreen')}
-      />
+      >
+        <Text style={styles.buttonText}>Natrag na unos sati</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -70,6 +78,17 @@ const styles = StyleSheet.create({
   cell: {
     width: '30%',
     textAlign: 'center',
+  },
+  button: {
+    backgroundColor: '#2196F3',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
 
