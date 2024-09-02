@@ -1,12 +1,11 @@
-// screens/WorkHoursEntry.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, Platform } from 'react-native';
-import { supabase } from '../supabaseClient'; // Import Supabase klijenta
+import { supabase } from '../supabaseClient';
 import { CheckBox } from 'react-native-elements'; // Import Checkbox
 import DateTimePicker from '@react-native-community/datetimepicker'; // Import DateTimePicker
-import * as Notifications from 'expo-notifications'; // Import za notifikacije
+import * as Notifications from 'expo-notifications'; // Import Notifications
 
-// Postavljanje konfiguracije za prikaz notifikacija
+// konfiguracija za notifikacije
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -99,7 +98,6 @@ const WorkHoursEntry = ({ userId, navigation }) => {
       Alert.alert('Success', 'Work hours added successfully');
       navigation.navigate('WorkHoursList', { userId });
 
-      // Provjeri je li trenutna zarada iznad ili ispod prosjeka i pošalji notifikaciju
       if (earnings > averageEarnings) {
         sendNotification(`Današnja zarada je iznad prosjeka: ${earnings.toFixed(2)} €`);
       } else if (earnings < averageEarnings) {

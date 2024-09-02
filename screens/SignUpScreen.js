@@ -1,7 +1,6 @@
-// screens/SignUpScreen.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { supabase } from '../supabaseClient'; // Import Supabase klijenta
+import { supabase } from '../supabaseClient';
 
 const SignUpScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -9,14 +8,13 @@ const SignUpScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const handleSignUp = async () => {
-    // Provjera da li već postoji korisnik s istim username-om
     const { data: existingUser, error: userCheckError } = await supabase
       .from('users')
       .select('*')
       .eq('username', username)
       .single();
 
-    if (userCheckError && userCheckError.code !== 'PGRST116') { // Provjera ako je greška osim "Not found"
+    if (userCheckError && userCheckError.code !== 'PGRST116') { 
       Alert.alert('Error', `Failed to check username: ${userCheckError.message}`);
       return;
     }
@@ -26,7 +24,6 @@ const SignUpScreen = ({ navigation }) => {
       return;
     }
 
-    // Registracija korisnika u Supabase
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
@@ -37,7 +34,6 @@ const SignUpScreen = ({ navigation }) => {
       return;
     }
 
-    // Dohvaćanje trenutnog korisnika nakon uspješne registracije
     const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
 
     if (sessionError || !sessionData?.session?.user) {
@@ -48,7 +44,6 @@ const SignUpScreen = ({ navigation }) => {
 
     const userId = sessionData.session.user.id;
 
-    // Unos korisničkih podataka u tablicu 'users'
     const { error: insertError } = await supabase.from('users').insert([
       {
         id: userId,

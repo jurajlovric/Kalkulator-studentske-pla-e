@@ -1,14 +1,12 @@
-// screens/LoginScreen.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { supabase } from '../supabaseClient'; // Import Supabase klijenta
+import { supabase } from '../supabaseClient';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    // Potraži korisnika prema usernameu
     const { data, error } = await supabase
       .from('users')
       .select('*')
@@ -20,7 +18,6 @@ const LoginScreen = ({ navigation }) => {
       return;
     }
 
-    // Prijavi korisnika koristeći email iz baze i password
     const { error: signInError } = await supabase.auth.signInWithPassword({
       email: data.email,
       password,
@@ -29,7 +26,6 @@ const LoginScreen = ({ navigation }) => {
     if (signInError) {
       Alert.alert('Login Error', signInError.message);
     } else {
-      // Preusmjeri na DashboardScreen nakon uspješne prijave
       navigation.navigate('DashboardScreen');
     }
   };

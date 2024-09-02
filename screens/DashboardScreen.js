@@ -1,21 +1,19 @@
-// screens/DashboardScreen.js
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
-import WorkHoursEntry from './WorkHoursEntry'; // Import forme za unos sati
-import { supabase } from '../supabaseClient'; // Import Supabase klijenta
+import WorkHoursEntry from './WorkHoursEntry';
+import { supabase } from '../supabaseClient';
 
 const DashboardScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
-      // Dohvati trenutnu sesiju korisnika
       const { data, error } = await supabase.auth.getSession();
 
       if (error) {
         console.error('Error fetching user:', error);
       } else if (data.session) {
-        setUser(data.session.user); // Postavljanje korisnika iz sesije
+        setUser(data.session.user);
       }
     };
 
@@ -29,7 +27,7 @@ const DashboardScreen = ({ navigation }) => {
       Alert.alert('Error', `Failed to log out: ${error.message}`);
     } else {
       Alert.alert('Success', 'Logged out successfully');
-      navigation.navigate('LoginScreen'); // Preusmjeravanje na ekran za prijavu
+      navigation.navigate('LoginScreen');
     }
   };
 

@@ -1,7 +1,7 @@
-// screens/WorkHoursList.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { supabase } from '../supabaseClient'; // Import Supabase klijenta
+import { View, Text, FlatList, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { supabase } from '../supabaseClient';
+import { LineChart } from 'react-native-chart-kit';
 
 const WorkHoursList = ({ navigation, route }) => {
   const [workHours, setWorkHours] = useState([]);
@@ -12,7 +12,8 @@ const WorkHoursList = ({ navigation, route }) => {
       const { data, error } = await supabase
         .from('work_hours')
         .select('*')
-        .eq('user_id', userId);
+        .eq('user_id', userId)
+        .order('date', { ascending: true });
 
       if (error) {
         console.error('Error fetching work hours:', error);
@@ -23,6 +24,17 @@ const WorkHoursList = ({ navigation, route }) => {
 
     fetchWorkHours();
   }, [userId]);
+
+  
+  const chartData = {
+    labels: workHours.map(item => new Date(item.date).toLocaleDateString()),
+    datasets: [
+      {
+        data: workHours.map(item => item.earnings),
+        strokeWidth: 2,
+      },
+    ],
+  };
 
   const renderItem = ({ item }) => (
     <View style={styles.row}>
@@ -41,6 +53,31 @@ const WorkHoursList = ({ navigation, route }) => {
         renderItem={renderItem}
         ListEmptyComponent={<Text>Nema unesenih sati.</Text>}
       />
+      {workHours.length > 0 && (
+        <LineChart
+          data={chartData}
+          width={Dimensions.get('window').width - 40}
+          height={220}
+          chartConfig={{
+            backgroundColor: '#e26a00',
+            backgroundGradientFrom: '#fb8c00',
+            backgroundGradientTo: '#ffa726',
+            decimalPlaces: 2,
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+            propsForDots: {
+              r: '6',
+              strokeWidth: '2',
+              stroke: '#ffa726',
+            },
+          }}
+          bezier
+          style={styles.chart}
+        />
+      )}
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('MonthlyHours', { userId })}
@@ -67,6 +104,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+  },
+  chart: {
+    marginVertical: 8,
+    borderRadius: 16,
   },
   row: {
     flexDirection: 'row',
