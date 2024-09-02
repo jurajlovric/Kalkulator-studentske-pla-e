@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "903833299261",
+    "project_id": "kalkulator-studentske-place",
+    "storage_bucket": "kalkulator-studentske-place.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903833299261:android:e1b4e74c9e92e7eb5afd54",
+        "android_client_info": {
+          "package_name": "com.example.kalkulatorstudplace"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzZY1vR2sUfTatoGmQv7NK5FY9vlGYglc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
