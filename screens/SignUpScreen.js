@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { supabase } from '../supabaseClient';
 
 const SignUpScreen = ({ navigation }) => {
@@ -14,7 +14,7 @@ const SignUpScreen = ({ navigation }) => {
       .eq('username', username)
       .single();
 
-    if (userCheckError && userCheckError.code !== 'PGRST116') { 
+    if (userCheckError && userCheckError.code !== 'PGRST116') {
       Alert.alert('Error', `Failed to check username: ${userCheckError.message}`);
       return;
     }
@@ -68,23 +68,27 @@ const SignUpScreen = ({ navigation }) => {
         style={styles.input}
         placeholder="Username"
         value={username}
-        onChangeText={text => setUsername(text)}
+        onChangeText={(text) => setUsername(text)}
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeText={text => setEmail(text)}
+        onChangeText={(text) => setEmail(text)}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
         value={password}
-        onChangeText={text => setPassword(text)}
+        onChangeText={(text) => setPassword(text)}
       />
-      <Button title="Sign Up" onPress={handleSignUp} />
-      <Button title="Back to Login" onPress={() => navigation.navigate('LoginScreen')} />
+      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoginScreen')}>
+        <Text style={styles.buttonText}>Back to Login</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -107,6 +111,18 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderWidth: 1,
     borderRadius: 5,
+  },
+  button: {
+    backgroundColor: '#2196F3',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
 
