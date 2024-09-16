@@ -5,7 +5,6 @@ import { CheckBox } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Notifications from 'expo-notifications';
 
-// Konfiguracija za notifikacije
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
